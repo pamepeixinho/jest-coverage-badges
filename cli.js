@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const { get } = require('https')
-const { readFile, writeFile } = require('fs')
+const { get } = require('https');
+const { readFile, writeFile } = require('fs');
 
 const getColour = coverage => {
   if (coverage < 80) {
@@ -13,7 +13,7 @@ const getColour = coverage => {
   }
 
   return 'brightgreen';
-}
+};
 
 const reportKeys = ['lines', 'statements', 'functions', 'branches'];
 
@@ -25,8 +25,11 @@ const getBadge = (report, key) => {
   const coverage = report.total[key].pct;
   const colour = getColour(coverage);
 
-  return `https://img.shields.io/badge/Coverage-${coverage}${encodeURI('%')}-${colour}.svg`;
-}
+  return `https://img.shields.io/badge/` +
+    `Coverage${encodeURI(':')}${key}-` +
+    `${coverage}${encodeURI('%')}` +
+    `-${colour}.svg`;
+};
 
 const download = (url, cb) => {
   get(url, res => {
@@ -36,20 +39,19 @@ const download = (url, cb) => {
   }).on('error', err => cb(err));
 };
 
-
 const getBadgeByKey = (report) => (key) => {
   const url = getBadge(report, key);
 
   download(url, (err, res) => {
-    if (err) throw err
+    if (err) throw err;
     writeFile(`./coverage/badge-${key}.svg`, res, 'utf8', err => {
-      if (err) throw err
+      if (err) throw err;
     });
   });
 };
 
 readFile('./coverage/coverage-summary.json', 'utf8', (err, res) => {
-  if (err) throw err
+  if (err) throw err;
   const report = JSON.parse(res);
   reportKeys.forEach(getBadgeByKey(report));
 });
