@@ -1,6 +1,6 @@
 {
   "name": "jest-coverage-badges",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Create a group of coverage badges from jest",
   "main": "cli.js",
   "bin": "cli.js",
@@ -23,7 +23,9 @@
     "url": "https://github.com/pamepeixinho/jest-coverage-badge/issues"
   },
   "homepage": "https://github.com/pamepeixinho/jest-coverage-badge#readme",
-  "dependencies": {},
+  "dependencies": {
+    "mkdirp": "0.5.1"
+  },
   "devDependencies": {
     "husky": "0.13.3",
     "standard": "10.0.2",
