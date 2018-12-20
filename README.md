@@ -64,12 +64,19 @@ Currently just reads from Istanbul's JSON summary reporter and downloads a badge
 
 3. Run `jest-coverage-badges` (or just run: `npm run test:badges`)
 
-
     Resulting in badges:
     - `./coverage/badge-statements.svg`
     - `./coverage/badge-lines.svg`
     - `./coverage/badge-functions.svg`
     - `./coverage/badge-branches.svg`
+
+#### CLI Options
+  * **input** [default: ./coverage/coverage-summary.json] - the file (and its path) of the summary json that contains the coverage data     
+  * **output** [default: ./coverage] - the path to the directory where the svg files will be placed after download. If path doesn't exist it will be created.
+
+**Example**:    
+ ```$ jest-coverage-badges input "./cov" output "./badges""```     
+
 
 After this you can add into Github readme (for example) :smiley:
 
