@@ -1,8 +1,7 @@
 #!/usr/bin/env node
-var mkdirp = require('mkdirp')
+const mkdirp = require('mkdirp')
 const { get } = require('https')
 const { readFile, writeFile } = require('fs')
-
 const outputPath = _findArgument('output', './coverage')
 const inputPath = _findArgument('input', './coverage/coverage-summary.json')
 
@@ -15,8 +14,8 @@ const getColour = coverage => {
     return 'yellow'
   }
 
-  return 'brightgreen'
-}
+  return 'brightgreen';
+};
 
 const reportKeys = ['lines', 'statements', 'functions', 'branches']
 
@@ -38,6 +37,7 @@ const download = (url, cb) => {
     res.on('end', () => cb(null, file))
   }).on('error', err => cb(err))
 }
+
 
 const getBadgeByKey = (report) => (key) => {
   const url = getBadge(report, key)
@@ -85,3 +85,5 @@ function _findArgument (argName, defaultOutput) {
     }
   }
 }
+
+
