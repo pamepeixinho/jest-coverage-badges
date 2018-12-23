@@ -79,11 +79,11 @@ function _findArgument (argName, defaultOutput) {
   const index = process.argv.findIndex(a => a.match(argName))
   if (index < 0) {
     return defaultOutput;
-  } else {
-    try {
-      return process.argv[index + 1];
-    } catch (e) {
-      return defaultOutput;
-    }
+  }
+
+  try {
+    return process.argv[index + 1];
+  } catch (e) {
+    return defaultOutput;
   }
 }
