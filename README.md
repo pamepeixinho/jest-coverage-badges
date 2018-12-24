@@ -3,6 +3,7 @@
 > Create a group of coverage badge
 
 [![License][license-image]][license-url]
+[![npm](https://img.shields.io/npm/dw/jest-coverage-badges.svg)](https://www.npmjs.com/package/jest-coverage-badges)
 
 [license-url]: https://opensource.org/licenses/MIT
 [license-image]: https://img.shields.io/npm/l/make-coverage-badge.svg
@@ -15,7 +16,13 @@ Creates a group of code coverage badges like the following:
 [coverage-badge-yellow]: https://img.shields.io/badge/Coverage-100%25-yellow.svg
 [coverage-badge-red]: https://img.shields.io/badge/Coverage-100%25-red.svg
 
-Currently just reads from Istanbul's JSON summary reporter and downloads a badge from https://shields.io/ for each jest coverage type (`statement`, `branch`, `functions`, `lines`).
+Currently just reads from Istanbul's JSON summary reporter and downloads a badge from https://shields.io/ for each jest coverage type (`statement`, `branch`, `functions`, `lines`). Like this:
+
+![Coverage lines](https://img.shields.io/badge/Coverage:lines-100-green.svg)
+![Coverage functions](https://img.shields.io/badge/Coverage:functions-100-green.svg)
+![Coverage branches](https://img.shields.io/badge/Coverage:branches-100-green.svg)
+![Coverage statements](https://img.shields.io/badge/Coverage:statements-100-green.svg)
+
 
 *This package is an extension of [make-coverage-badge], but this one creates all the types of coverage.*
 
