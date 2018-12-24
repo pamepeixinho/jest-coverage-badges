@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /* eslint-disable semi */
 const mkdirp = require('mkdirp');
 const { get } = require('https');
@@ -54,7 +56,7 @@ const getBadge = (report, key) => {
   const coverage = report.total[key].pct;
   const colour = getColour(coverage);
 
-  return `https://img.shields.io/badge/Coverage-${coverage}${encodeURI('%')}-${colour}.svg`;
+  return `https://img.shields.io/badge/Coverage${encodeURI(':')}${key}-${coverage}${encodeURI('%')}-${colour}.svg`;
 }
 
 const download = (url, cb) => {
