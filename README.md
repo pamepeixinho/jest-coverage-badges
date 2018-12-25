@@ -82,7 +82,7 @@ Currently just reads from Istanbul's JSON summary reporter and downloads a badge
   * **output** [default: ./coverage] - the path to the directory where the svg files will be placed after download. If path doesn't exist it will be created.
 
 **Example**:    
-  ```$ jest-coverage-badges input "./cov" output "./badges"```     
+  ```$ jest-coverage-badges --input "./cov" --output "./badges"```     
 
 
 After this you can add into Github readme (for example) :smiley:
