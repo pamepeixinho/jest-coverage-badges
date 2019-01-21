@@ -30,7 +30,6 @@ const findArgument = (argName, defaultOutput) => {
   }
 }
 
-
 const outputPath = findArgument('output', './coverage');
 const inputPath = findArgument('input', './coverage/coverage-summary.json');
 
@@ -53,7 +52,7 @@ const getBadge = (report, key) => {
     throw new Error('malformed coverage report');
   }
 
-  const coverage = report.total[key].pct;
+  const coverage = (!report.total[key] || typeof report.total[key].pct !== 'number') ? 0 : report.total[key].pct;
   const colour = getColour(coverage);
 
   return `https://img.shields.io/badge/Coverage${encodeURI(':')}${key}-${coverage}${encodeURI('%')}-${colour}.svg`;
