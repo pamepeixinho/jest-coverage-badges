@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+require('global-tunnel-ng').initialize()
+
 /* eslint-disable semi */
 const mkdirp = require('mkdirp');
 const { get } = require('https');
@@ -13,7 +15,7 @@ const { readFile, writeFile } = require('fs');
  * @param defaultOutput - default value to return if could not find argument in cli command
  * @private
  */
-const findArgument = (argName, defaultOutput) => {
+const findArgument = (argName, defaultOutput, parseValue) => {
   if (!argName) {
     return defaultOutput;
   }
@@ -24,7 +26,12 @@ const findArgument = (argName, defaultOutput) => {
   }
 
   try {
-    return process.argv[index + 1];
+
+    let argument = process.argv[index + 1];
+    if(parseValue){
+      argument = parseValue(argument);
+    }
+    return argument;
   } catch (e) {
     return defaultOutput;
   }
@@ -33,12 +40,17 @@ const findArgument = (argName, defaultOutput) => {
 const outputPath = findArgument('output', './coverage');
 const inputPath = findArgument('input', './coverage/coverage-summary.json');
 
+const parseArgumentToInt = (argument) => parseInt(argument);
+
+const lowCoverage = findArgument('low', 80, parseArgumentToInt)
+const highCoverage = findArgument('high', 90, parseArgumentToInt)
+
 const getColour = (coverage) => {
-  if (coverage < 80) {
+  if (coverage < lowCoverage) {
     return 'red';
   }
 
-  if (coverage < 90) {
+  if (coverage < highCoverage) {
     return 'yellow';
   }
 
