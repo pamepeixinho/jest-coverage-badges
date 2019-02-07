@@ -65,11 +65,21 @@ Currently just reads from Istanbul's JSON summary reporter and downloads a badge
       "test:badges": "npm run test:coverage  && jest-coverage-badges"
     }
     ```
+3. Configure proxy 
+ 
+  If you are behind a corporate proxy, you will need to set the ```HTTP_PROXY``` environment variable to work properly..
 
+```
+  ## Linux user's
+    HTTP_PROXY=http://yourproxy.com:yourProxyPort
 
-2. Run `npm test -- --coverage`
+  ## Windows user's
+    SET HTTP_PROXY=http://yourproxy.com:yourProxyPort
+```
 
-3. Run `jest-coverage-badges` (or just run: `npm run test:badges`)
+4. Run `npm test -- --coverage`
+
+5. Run `jest-coverage-badges` (or just run: `npm run test:badges`)
 
     Resulting in badges:
     - `./coverage/badge-statements.svg`
@@ -80,9 +90,11 @@ Currently just reads from Istanbul's JSON summary reporter and downloads a badge
 #### CLI Options
   * **input** [default: ./coverage/coverage-summary.json] - the file (and its path) of the summary json that contains the coverage data     
   * **output** [default: ./coverage] - the path to the directory where the svg files will be placed after download. If path doesn't exist it will be created.
+  * **low** [default: 80] - the minimum of coverage to be considerated as medium coverage (yellow), bellow this value, always will be flagged as low coverage (red).
+  * **high** [default: 90] - the minimum of coverage to be conssiderated as high coverage (green), above this will be flagged as high coverage (green).
 
 **Example**:    
-  ```$ jest-coverage-badges --input "./cov" --output "./badges"```     
+  ```$ jest-coverage-badges --input "./cov" --output "./badges" --low 85 --high 95```     
 
 
 After this you can add into Github readme (for example) :smiley:
