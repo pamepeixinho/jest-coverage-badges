@@ -20,9 +20,9 @@
     "npm": ">=5.3"
   },
   "bugs": {
-    "url": "https://github.com/pamepeixinho/jest-coverage-badge/issues"
+    "url": "https://github.com/pamepeixinho/jest-coverage-badges/issues"
   },
-  "homepage": "https://github.com/pamepeixinho/jest-coverage-badge#readme",
+  "homepage": "https://github.com/pamepeixinho/jest-coverage-badges#readme",
   "scripts": {
     "lint": "eslint --fix -- ."
   },
