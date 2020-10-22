@@ -18,7 +18,7 @@ const findArgument = (argName, defaultOutput) => {
     return defaultOutput;
   }
 
-  const index = process.argv.findIndex(a => a.match(argName))
+  const index = process.argv.findIndex(a => a.match(argName));
   if (index < 0) {
     return defaultOutput;
   }
@@ -52,10 +52,37 @@ const getBadge = (report, key) => {
     throw new Error('malformed coverage report');
   }
 
-  const coverage = (!report.total[key] || typeof report.total[key].pct !== 'number') ? 0 : report.total[key].pct;
-  const colour = getColour(coverage);
+  coverage = (!report.total[key] || typeof report.total[key].pct !== 'number') ? 0 : report.total[key].pct;
 
-  return `https://img.shields.io/badge/Coverage${encodeURI(':')}${key}-${coverage}${encodeURI('%')}-${colour}.svg`;
+  return getBadgeUrl(coverage, key);
+}
+
+const getAverageBadge = (report, inputString) => {
+  let keys;
+  if (inputString === 'all') {
+    keys = reportKeys;
+  } else {
+    keys = inputString.split(',');
+  }
+
+  if (keys.length > 0) {
+    let coverages = keys.map(key => {
+      if (!(report && report.total && report.total[key])) {
+        throw new Error('malformed coverage report');
+      }
+
+      return (!report.total[key] || typeof report.total[key].pct !== 'number') ? 0 : report.total[key].pct;
+    });
+
+    let averageCoverage = coverages.reduce((a, b) => (a+b)) / coverages.length;
+
+    return getBadgeUrl(averageCoverage);
+  }
+  throw new Error('No keys given');
+}
+
+const getBadgeUrl = (coverage, key) => {
+  return `https://img.shields.io/badge/Coverage${key ? encodeURI(':')+key : ''}-${coverage}${encodeURI('%')}-${getColour(coverage)}.svg`;
 }
 
 const download = (url, cb) => {
@@ -68,8 +95,8 @@ const download = (url, cb) => {
   }).on('error', err => cb(err));
 }
 
-const writeBadgeInFolder = (key, res) => {
-  writeFile(`${outputPath}/badge-${key}.svg`, res, 'utf8', (writeError) => {
+const writeBadgeInFolder = (res, key) => {
+  writeFile(`${outputPath}/badge${key ? '-'+key : ''}.svg`, res, 'utf8', (writeError) => {
     if (writeError) {
       throw writeError;
     }
@@ -77,8 +104,10 @@ const writeBadgeInFolder = (key, res) => {
 }
 
 const getBadgeByKey = report => (key) => {
-  const url = getBadge(report, key);
+  saveBadge(getBadge(report, key), key);
+}
 
+const saveBadge = (url, key) => {
   download(url, (err, res) => {
     if (err) {
       throw err;
@@ -87,7 +116,7 @@ const getBadgeByKey = report => (key) => {
       if (folderError) {
         console.error(`Could not create output directory ${folderError}`);
       } else {
-        writeBadgeInFolder(key, res);
+        writeBadgeInFolder(res, key);
       }
     })
   })
@@ -100,4 +129,13 @@ readFile(`${inputPath}`, 'utf8', (err, res) => {
 
   const report = JSON.parse(res);
   reportKeys.forEach(getBadgeByKey(report));
+
+  let average = findArgument('average', '');
+
+  if (average === undefined && process.argv.filter(a => a.match('average'))) {
+    average = 'all';
+  }
+  if (average) {
+    saveBadge(getAverageBadge(report, average), 'average');
+  }
 });
