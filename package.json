@@ -27,7 +27,7 @@
     "lint": "eslint --fix -- ."
   },
   "dependencies": {
-    "mkdirp": "0.5.1"
+    "mkdirp": "1.0.4"
   },
   "devDependencies": {
     "eslint": "5.11.0",
