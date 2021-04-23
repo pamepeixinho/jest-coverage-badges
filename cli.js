@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 
 /* eslint-disable semi */
+const util = require('util');
 const mkdirp = require('mkdirp');
 const { get } = require('https');
 const { readFile, writeFile } = require('fs');
+
+const mkdirpCallback = util.callbackify(mkdirp)
 
 /**
  * Will lookup the argument in the cli arguments list and will return a
@@ -83,7 +86,7 @@ const getBadgeByKey = report => (key) => {
     if (err) {
       throw err;
     }
-    mkdirp(outputPath, (folderError) => {
+    mkdirpCallback(outputPath, (folderError) => {
       if (folderError) {
         console.error(`Could not create output directory ${folderError}`);
       } else {
